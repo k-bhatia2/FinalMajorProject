@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firefly Text Screensaver</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: black;
+            overflow: hidden;
+        }
+
+        #text {
+            position: absolute;
+            font-size: 50px;
+            font-family: Arial, sans-serif;
+            color: yellow;
+            text-shadow: 0 0 20px rgba(255, 255, 0, 0.9),
+                         0 0 30px rgba(255, 255, 0, 0.8),
+                         0 0 40px rgba(255, 255, 0, 0.7);
+            animation: fireflyGlow 2s infinite alternate;
+        }
+
+        @keyframes fireflyGlow {
+            0% {
+                text-shadow: 0 0 10px rgba(255, 255, 0, 0.6),
+                             0 0 20px rgba(255, 255, 0, 0.4),
+                             0 0 30px rgba(255, 255, 0, 0.3);
+            }
+            100% {
+                text-shadow: 0 0 30px rgba(255, 255, 0, 1),
+                             0 0 50px rgba(255, 255, 0, 0.9),
+                             0 0 60px rgba(255, 255, 0, 0.8);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="text">Kshitij Tepiya</div>
+
+    <script>
+        let text = document.getElementById('text');
+        let posX = 100;
+        let posY = 100;
+        let velX = 2;
+        let velY = 2;
+
+        function moveText() {
+            let textRect = text.getBoundingClientRect();
+            let screenWidth = window.innerWidth;
+            let screenHeight = window.innerHeight;
+
+            // Bounce off the right or left edge
+            if (posX + textRect.width >= screenWidth || posX <= 0) {
+                velX = -velX;
+            }
+
+            // Bounce off the bottom or top edge
+            if (posY + textRect.height >= screenHeight || posY <= 0) {
+                velY = -velY;
+            }
+
+            // Update the position of the text
+            posX += velX;
+            posY += velY;
+
+            // Apply the new position
+            text.style.left = posX + 'px';
+            text.style.top = posY + 'px';
+
+            // Request the next frame
+            requestAnimationFrame(moveText);
+        }
+
+        // Start the animation
+        moveText();
+
+        // Enable fullscreen on double-click
+        document.addEventListener('dblclick', function() {
+            if (document.fullscreenElement) {
+                document.exitFullscreen();
+            } else {
+                document.documentElement.requestFullscreen();
+            }
+        });
+    </script>
+</body>
+</html>
